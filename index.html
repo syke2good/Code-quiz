@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./asset/style.css">
+</head>
+<body>
+    <section id="nav">
+        <!-- preview scores on the top left of nav bar-->
+        <div class="up">
+            <a onclick="getScore()" href="/highscore.html"><h4 >View Highscore</h4></a>
+        </div>
+        <!-- timer on the top of nav bar-->
+        <div class="down">
+            <h4>Time: <span id="timeRemaining">0</span></h4>
+        </div>
+    </section>
+    <!--body of quiz-->
+    <section id="quiz">
+        <div id="quizBody">      
+            <h1>   
+                Code Quiz!
+            </h1>
+            <p><strong> While answering the following questions? Keep in mind that incorrect
+                answers will penalize your time!</strong></p>
+            <h3>
+                Click to Begin!   
+            </h3>
+            <button onclick="start()">Start!</button>
+        </div>
+    </section>
+
+    <script src="/asset/script.js"></script>
+    
+</body>
+</html>
