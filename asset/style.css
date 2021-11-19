@@ -52,7 +52,7 @@ button:hover {
 
 /* Highscore page CSS */
 
-#wrapper {
+#wrap {
     /* position: absolute; */
     position: relative;
     left: 30%;
@@ -66,11 +66,11 @@ button:hover {
     margin: 20px;
 }
 
-#currentTime {
+#Time {
     float: right;
 }
 
-#goBack {
+#return {
     background-color: rgb(8, 144, 255);
     position: relative;
     padding: 10px;
@@ -93,19 +93,3 @@ button:hover {
     right: 5%;
     text-align: center;
 }
-
-/* button {
-    border: none;
-    background-color: #43a5d3;
-    color: rgb(0, 0, 0);
-    border-radius: 5px;
-    padding: 10px 10px 10px 10px;
-    font-size: 17px;
-    font-family: 'Roboto Slab', arial;
-    margin: 4px;
-}
-
-button:hover {
-    transition-duration: 0.5s;
-    background-color: #ffffff;
-} */

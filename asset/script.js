@@ -32,6 +32,7 @@ var currentQuestion = -1;
 var timeLeft = 0;
 var timer;
 
+var input
 //starts the countdown timer once user clicks the 'start' button
 function start() {
 
@@ -55,15 +56,45 @@ next();
 function endGame() {
 clearInterval(timer);
 
-var quizContent = `
-<h2>Game over!</h2>
-<h3>You got a ` + score +  ` /100!</h3>
-<h3>That means you got ` + score / 20 +  ` questions correct!</h3>
-<input type="text" id="name" placeholder="First name"> 
-<button onclick="setScore()">Set score!</button>`;
+// var quizContent = `
+// <h2>Game over!</h2>
+// <h3>You got a ` + score +  ` /100!</h3>
+// <h3>That means you got ` + score / 20 +  ` questions correct!</h3>
+// <input type="text" id="name" placeholder="First name"> 
+// <button onclick="setScore()">Set score!</button>`;
 
-document.getElementById("quizBody").innerHTML = quizContent;
+var h2 = document.createElement("h2");
+h2.textContent = "Game over!"
+var h3 = document.createElement("h3");
+h3.textContent = "You got a"  + score + "/100!"
+input = document.createElement("input");
+input.placeholder = "Firstname" 
+var button = document.createElement("input");
+button.type = "submit"
+
+document.getElementById("quizBody").appendChild(h2)
+document.getElementById("quizBody").appendChild(h3)
+document.getElementById("quizBody").appendChild(input)
+document.getElementById("quizBody").appendChild(button)
+
 }
+document.addEventListener("submit", function(Event) {
+    Event.preventDefault()
+    var currentscore = localStorage.getItem("highscore");
+    if(!currentscore){
+        localStorage.setItem("highscore", JSON.stringify([
+            {
+                initials: input,
+                score
+            }
+        ]) )
+    }
+    currentscore.push({
+        initials: input,
+        score
+    })
+    localStorage.setItem("highscore", JSON.stringify(currentscore))
+})
 
 //store the scores on local storage
 function setScore() {
@@ -84,34 +115,6 @@ var quizContent = `
 
 document.getElementById("quizBody").innerHTML = quizContent;
 }
-
-// Event listener to capture initials and local storage for initials and score
-// createSubmit.addEventListener("click", function () {
-//     var initials = createInput.value;
-
-//     if (initials === null) {
-
-//         console.log("No value entered!");
-
-//     } else {
-//         var finalScore = {
-//             initials: initials,
-//             score: timeRemaining
-//         }
-//         console.log(finalScore);
-//         var allScores = localStorage.getItem("allScores");
-//         if (allScores === null) {
-//             allScores = [];
-//         } else {
-//             allScores = JSON.parse(allScores);
-//         }
-//         allScores.push(finalScore);
-//         var newScore = JSON.stringify(allScores);
-//         localStorage.setItem("allScores", newScore);
-//         // Travels to final page
-//         window.location.replace("highscore.html");
-//     }
-// });
 
 //clears the score name and value in the local storage if the user selects 'clear score'
 function clearScore() {
@@ -178,5 +181,7 @@ for (var buttonLoop = 0; buttonLoop < questions[currentQuestion].choices.length;
 }
 
 
+
 document.getElementById("quizBody").innerHTML = quizContent;
 }
+
