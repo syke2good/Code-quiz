@@ -37,7 +37,7 @@ THEN you click on high-score button
 
 The following animation demonstrates the application functionality:
 
-![A user clicks through an interactive coding quiz, then enters initials to save the high score before resetting and starting over.](./Assets/04-web-apis-homework-demo.gif)
+![A user clicks through an interactive coding quiz, then enters initials to save the high score before resetting and starting over.](asset/demo-video/Document.gif)
 
 ## Grading Requirements
 
