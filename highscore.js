@@ -9,8 +9,8 @@ clear.addEventListener("click", function () {
     location.reload();
 });
 // Retreives local stroage 
-var allScores = localStorage.getItem("highscore");
-allScores = JSON.parse(allScores);
+var allScores = JSON.parse(localStorage.getItem("highscore"));
+
 if(!allScores){
     var li = document.createElement("li");
     li.textContent = "no high scores"
@@ -22,7 +22,7 @@ if(!allScores){
     for (var i = 0; i < allScores.length; i++) {
 
         var createLi = document.createElement("li");
-        createLi.textContent = allScores[i].initials + " " + allScores[i].score;
+        createLi.textContent = allScores[i].initials + " - " + allScores[i].score;
         highScore.appendChild(createLi);
 
     }

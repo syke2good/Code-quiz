@@ -26,13 +26,13 @@ var questions = [{
 }
 ]
 
+var quizbody = document.getElementById("quizBody")
 //setting the numerical variables for the functions.. scores and timers.. 
 var score = 0;
 var currentQuestion = -1;
 var timeLeft = 0;
 var timer;
 
-var input
 //starts the countdown timer once user clicks the 'start' button
 function start() {
 
@@ -67,34 +67,45 @@ var h2 = document.createElement("h2");
 h2.textContent = "Game over!"
 var h3 = document.createElement("h3");
 h3.textContent = "You got a"  + score + "/100!"
-input = document.createElement("input");
+var input = document.createElement("input");
+input.setAttribute('id', 'initials-input')
 input.placeholder = "Firstname" 
+
 var button = document.createElement("input");
 button.type = "submit"
+button.setAttribute('id', 'submitbutton')
+quizbody.appendChild(h2)
+quizbody.appendChild(h3)
+quizbody.appendChild(input)
+quizbody.appendChild(button)
 
-document.getElementById("quizBody").appendChild(h2)
-document.getElementById("quizBody").appendChild(h3)
-document.getElementById("quizBody").appendChild(input)
-document.getElementById("quizBody").appendChild(button)
-
+listenToButton(button)
 }
-document.addEventListener("submit", function(Event) {
+
+function listenToButton(button) {
+    button.addEventListener("click", function(Event) {
+    if(Event.target.id != "submitbutton") return
     Event.preventDefault()
-    var currentscore = localStorage.getItem("highscore");
+    
+    var input = document.getElementById('initials-input')
+    var currentscore = JSON.parse(localStorage.getItem("highscore"));
+
     if(!currentscore){
         localStorage.setItem("highscore", JSON.stringify([
             {
-                initials: input,
+                initials: input.value,
                 score
             }
         ]) )
     }
     currentscore.push({
-        initials: input,
+        initials: input.value,
         score
     })
     localStorage.setItem("highscore", JSON.stringify(currentscore))
-})
+    })
+
+}
 
 //store the scores on local storage
 function setScore() {
