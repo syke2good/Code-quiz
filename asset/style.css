@@ -93,3 +93,7 @@ button:hover {
     right: 5%;
     text-align: center;
 }
+
+.hide {
+    display: none;
+}

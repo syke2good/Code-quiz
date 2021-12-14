@@ -36,87 +36,90 @@ var timer;
 //starts the countdown timer once user clicks the 'start' button
 function start() {
 
-timeLeft = 60;
-document.getElementById("timeRemaining").innerHTML = timeLeft;
-
-timer = setInterval(function() {
-    timeLeft--;
+    timeLeft = 60;
     document.getElementById("timeRemaining").innerHTML = timeLeft;
-    //proceed to end the game function when timer is below 0 at any time
-    if (timeLeft <= 0) {
-        clearInterval(timer);
-        endGame(); 
-    }
-}, 1000);
 
-next();
+    timer = setInterval(function () {
+        timeLeft--;
+        document.getElementById("timeRemaining").innerHTML = timeLeft;
+        //proceed to end the game function when timer is below 0 at any time
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endGame();
+        }
+    }, 1000);
+
+    next();
 }
 
 //stop the timer to end the game 
 function endGame() {
-clearInterval(timer);
+    clearInterval(timer);
+    document.querySelector("#quizBody").classList.add("hide");
+    // var quizContent = `
+    // <h2>Game over!</h2>
+    // <h3>You got a ` + score +  ` /100!</h3>
+    // <h3>That means you got ` + score / 20 +  ` questions correct!</h3>
+    // <input type="text" id="name" placeholder="First name"> 
+    // <button onclick="setScore()">Set score!</button>`;
 
-// var quizContent = `
-// <h2>Game over!</h2>
-// <h3>You got a ` + score +  ` /100!</h3>
-// <h3>That means you got ` + score / 20 +  ` questions correct!</h3>
-// <input type="text" id="name" placeholder="First name"> 
-// <button onclick="setScore()">Set score!</button>`;
+    var h2 = document.createElement("h2");
+    h2.textContent = "Game over!"
+    var h3 = document.createElement("h3");
+    h3.textContent = "You got a" + score + "/100!"
+    var input = document.createElement("input");
+    input.setAttribute('id', 'initials-input')
+    input.placeholder = "Firstname"
 
-var h2 = document.createElement("h2");
-h2.textContent = "Game over!"
-var h3 = document.createElement("h3");
-h3.textContent = "You got a"  + score + "/100!"
-var input = document.createElement("input");
-input.setAttribute('id', 'initials-input')
-input.placeholder = "Firstname" 
+    var button = document.createElement("input");
+    button.type = "submit"
+    button.setAttribute('id', 'submitbutton')
+    var gameOver = document.querySelector('#gameOver');
+    gameOver.appendChild(h2);
+    gameOver.appendChild(h3);
+    gameOver.appendChild(input);
+    gameOver.appendChild(button);
 
-var button = document.createElement("input");
-button.type = "submit"
-button.setAttribute('id', 'submitbutton')
-quizbody.appendChild(h2)
-quizbody.appendChild(h3)
-quizbody.appendChild(input)
-quizbody.appendChild(button)
-
-listenToButton(button)
+    listenToButton(button);
 }
 
 function listenToButton(button) {
-    button.addEventListener("click", function(Event) {
-    if(Event.target.id != "submitbutton") return
-    Event.preventDefault()
-    
-    var input = document.getElementById('initials-input')
-    var currentscore = JSON.parse(localStorage.getItem("highscore"));
+    button.addEventListener("click", function (Event) {
+        if (Event.target.id != "submitbutton") return
+        Event.preventDefault()
 
-    if(!currentscore){
-        localStorage.setItem("highscore", JSON.stringify([
-            {
+        var input = document.getElementById('initials-input')
+        var currentscore = JSON.parse(localStorage.getItem("highscore"));
+
+        if (!currentscore) {
+            localStorage.setItem("highscore", JSON.stringify([
+                {
+                    initials: input.value,
+                    score
+                }
+            ]))
+        }
+        else {
+            currentscore.push({
                 initials: input.value,
                 score
-            }
-        ]) )
-    }
-    currentscore.push({
-        initials: input.value,
-        score
-    })
-    localStorage.setItem("highscore", JSON.stringify(currentscore))
+            })
+            localStorage.setItem("highscore", JSON.stringify(currentscore))
+        }
     })
 
 }
 
 //store the scores on local storage
 function setScore() {
-localStorage.setItem("highscore", score);
-localStorage.setItem("highscoreName",  document.getElementById('name').value);
-getScore();
+    localStorage.setItem("highscore", score);
+    localStorage.setItem("highscoreName", document.getElementById('name').value);
+    getScore();
 }
 
 
 function getScore() {
-var quizContent = `
+    var quizContent = `
 <h2>` + localStorage.getItem("highscoreName") + `'s highscore is:</h2>
 <h1>` + localStorage.getItem("highscore") + `</h1><br> 
 
@@ -124,28 +127,29 @@ var quizContent = `
 
 `;
 
-document.getElementById("quizBody").innerHTML = quizContent;
+    document.getElementById("quizBody").innerHTML = quizContent;
 }
 
 //clears the score name and value in the local storage if the user selects 'clear score'
 function clearScore() {
-localStorage.setItem("highscore", "");
-localStorage.setItem("highscoreName",  "");
+    localStorage.setItem("highscore", "");
+    localStorage.setItem("highscoreName", "");
 
-resetGame();
+    resetGame();
 }
 
 //reset the game 
 function resetGame() {
-clearInterval(timer);
-score = 0;
-currentQuestion = -1;
-timeLeft = 0;
-timer = null;
-
-document.getElementById("timeRemaining").innerHTML = timeLeft;
-
-var quizContent = `
+    clearInterval(timer);
+    score = 0;
+    currentQuestion = -1;
+    timeLeft = 0;
+    timer = null;
+    document.querySelector("#quizBody").classList.remove("hide");
+    document.getElementById("timeRemaining").innerHTML = timeLeft;
+    var gameOver = document.querySelector('#gameOver');
+    gameOver.innerHTML = ''
+    var quizContent = `
 <h1>
     Code Quiz!
 </h1>
@@ -154,45 +158,45 @@ var quizContent = `
 </h3>
 <button onclick="start()">Start!</button>`;
 
-document.getElementById("quizBody").innerHTML = quizContent;
+    document.getElementById("quizBody").innerHTML = quizContent;
 }
 
 //deduct 15seconds from the timer if user chooses an incorrect answer
 function incorrect() {
-timeLeft -= 15; 
-next();
+    timeLeft -= 15;
+    next();
 }
 
 //increases the score by 20points if the user chooses the correct answer
 function correct() {
-score += 20;
-next();
+    score += 20;
+    next();
 }
 
 //loops through the questions 
 function next() {
-currentQuestion++;
+    currentQuestion++;
 
-if (currentQuestion > questions.length - 1) {
-    endGame();
-    return;
-}
-
-var quizContent = "<h2>" + questions[currentQuestion].title + "</h2>"
-
-for (var buttonLoop = 0; buttonLoop < questions[currentQuestion].choices.length; buttonLoop++) {
-    var buttonCode = "<button onclick=\"[ANS]\">[CHOICE]</button>"; 
-    buttonCode = buttonCode.replace("[CHOICE]", questions[currentQuestion].choices[buttonLoop]);
-    if (questions[currentQuestion].choices[buttonLoop] == questions[currentQuestion].answer) {
-        buttonCode = buttonCode.replace("[ANS]", "correct()");
-    } else {
-        buttonCode = buttonCode.replace("[ANS]", "incorrect()");
+    if (currentQuestion > questions.length - 1) {
+        endGame();
+        return;
     }
-    quizContent += buttonCode
-}
+
+    var quizContent = "<h2>" + questions[currentQuestion].title + "</h2>"
+
+    for (var buttonLoop = 0; buttonLoop < questions[currentQuestion].choices.length; buttonLoop++) {
+        var buttonCode = "<button onclick=\"[ANS]\">[CHOICE]</button>";
+        buttonCode = buttonCode.replace("[CHOICE]", questions[currentQuestion].choices[buttonLoop]);
+        if (questions[currentQuestion].choices[buttonLoop] == questions[currentQuestion].answer) {
+            buttonCode = buttonCode.replace("[ANS]", "correct()");
+        } else {
+            buttonCode = buttonCode.replace("[ANS]", "incorrect()");
+        }
+        quizContent += buttonCode
+    }
 
 
 
-document.getElementById("quizBody").innerHTML = quizContent;
+    document.getElementById("quizBody").innerHTML = quizContent;
 }
 

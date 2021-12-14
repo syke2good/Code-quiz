@@ -12,6 +12,7 @@ clear.addEventListener("click", function () {
 var allScores = JSON.parse(localStorage.getItem("highscore"));
 
 if(!allScores){
+    allScores = [];
     var li = document.createElement("li");
     li.textContent = "no high scores"
     highScore.appendChild(li)
@@ -28,5 +29,6 @@ if(!allScores){
     }
 // Event listener to move to index page
 goBack.addEventListener("click", function () {
+    console.log('goback');
     window.location.replace("./index.html");
 });
